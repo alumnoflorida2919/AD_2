@@ -44,5 +44,34 @@ namespace PlaceMyBet.Models
                 return null;
             }
         }
+        internal List<EventoDTO> RetrieveDTO() //internal es como un public pero un poco mas restrictivo
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from Eventos";
+
+            try
+            {
+
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                EventoDTO e = null;
+                List<EventoDTO> eventos = new List<EventoDTO>();
+                while (res.Read())
+
+                {
+                    Debug.WriteLine("Recuperado:" + res.GetInt32(0) + " " + res.GetString(1) + " " + res.GetString(2) + " " + res.GetDateTime(3));
+                    e = new EventoDTO(res.GetString(1), res.GetString(2), res.GetDateTime(3));
+                    eventos.Add(e);
+                }
+                con.Close();
+                return eventos;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("Se ha producido un error de conexion");
+                return null;
+            }
+        }
     }
 }
