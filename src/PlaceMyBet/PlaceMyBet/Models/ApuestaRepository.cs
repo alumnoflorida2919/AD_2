@@ -35,5 +35,25 @@ namespace PlaceMyBet.Models
             con.Close();
             return apuestas;
         }
+        internal List<ApuestaDTO> RetrieveDTO()
+        {
+
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "select * from apuestas";
+
+            con.Open();
+            MySqlDataReader res = command.ExecuteReader();
+            ApuestaDTO a = null;
+            List<ApuestaDTO> apuestas = new List<ApuestaDTO>();
+            while (res.Read())
+            {
+                Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetDouble(1) + " " + res.GetString(2) + " " + res.GetDouble(3) + " " + res.GetDouble(4) + " " + res.GetDateTime(5) + " " + res.GetInt32(6) + " " + res.GetString(7));
+                a = new ApuestaDTO(res.GetString(7),res.GetDouble(1), res.GetDouble(3),res.GetString(2), res.GetDouble(4), res.GetDateTime(5));
+                apuestas.Add(a);
+            }
+            con.Close();
+            return apuestas;
+        }
     }
 }
