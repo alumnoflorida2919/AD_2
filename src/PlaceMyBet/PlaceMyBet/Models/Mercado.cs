@@ -26,4 +26,16 @@ namespace PlaceMyBet.Models
         public double DineroApostadoUnder { get; set; }
         public int Eventos_Identificador_evento { get; set; }
     }
+    public class MercadoDTO
+    {
+        public MercadoDTO(double overUnder, double cuotaOver, double cuotaUnder)
+        {
+            OverUnder = overUnder;
+            CuotaOver = cuotaOver;
+            CuotaUnder = cuotaUnder;
+        }
+        public double OverUnder { get; set; }
+        public double CuotaOver { get; set; }
+        public double CuotaUnder { get; set; }
+    }
 }
