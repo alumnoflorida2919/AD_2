@@ -1,7 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -54,6 +56,52 @@ namespace PlaceMyBet.Models
             }
             con.Close();
             return apuestas;
+        }
+        internal void Save(Apuesta a)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            // para que aunque introduzcas puntos no te transforme el sql en comas
+            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+            culInfo.NumberFormat.NumberDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            culInfo.NumberFormat.PercentDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
+            //
+            command.CommandText = "INSERT INTO apuestas (MercadoOverUnder, TipoOverUnder, Cuota, DineroApostado, Fecha, Mercado_id_mercado, Usuario_Email) VALUES ('" + a.MercadoOverUnder + "','" + a.TipoOverUnder + "'," + datoCuota(a.MercadoOverUnder, a.TipoOverUnder) + ",'" + a.DineroApostado + "','" + a.fecha + "','" + a.Mercado_id_mercado + "','" + a.Usuario_Email + "');";
+            Debug.WriteLine("comando" + command.CommandText);
+            
+
+            try
+            {
+                con.Open();
+                command.ExecuteNonQuery();
+
+                con.Close();
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine("se ha producido un error de conexion");
+            }
+        }
+
+        private string datoCuota(double mercado, string tipo)
+        {
+            if (tipo == "over")
+            {
+                return string.Format("(select CuotaOver from mercados where OverUnder like '{0}';)", mercado);
+            }
+            
+
+            else if(tipo=="under")
+            {
+                return string.Format("(select CuotaUnder from mercados where OverUnder like '{0}')", mercado);
+            }
+            else
+            {
+                return "Error";
+            }
         }
     }
 }

@@ -55,5 +55,6 @@ namespace PlaceMyBet.Models
             con.Close();
             return mercados;
         }
+       
     }
 }

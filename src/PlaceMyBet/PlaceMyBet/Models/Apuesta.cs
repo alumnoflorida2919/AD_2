@@ -17,6 +17,8 @@ namespace PlaceMyBet.Models
             this.fecha = fecha;
             Mercado_id_mercado = mercado_id_mercado;
             Usuario_Email = usuario_Email;
+            
+            
         }
 
         public int id_apuesta { get; set; }
@@ -45,5 +47,5 @@ namespace PlaceMyBet.Models
         public string TipoOverUnder { get; set; }
         public double DineroApostado { get; set; }
         public DateTime fecha { get; set; }
-    }
+    }   
 }
