@@ -11,7 +11,7 @@ namespace PlaceMyBet.Models
         {
             this.id_apuesta = id_apuesta;
             MercadoOverUnder = mercadoOverUnder;
-            TipoOverUnder = tipoOverUnder;
+            TipoOverUnder = tipoOverUnder.ToLower();
             Cuota = cuota;
             DineroApostado = dineroApostado;
             this.fecha = fecha;
@@ -35,7 +35,7 @@ namespace PlaceMyBet.Models
         public ApuestaDTO( string usuario_Email, double mercadoOverUnder,double cuota, string tipoOverUnder, double dineroApostado, DateTime fecha)
         {
             Usuario_Email = usuario_Email;
-            TipoOverUnder = tipoOverUnder;
+            TipoOverUnder = tipoOverUnder.ToLower();
             Cuota = cuota;
             MercadoOverUnder = mercadoOverUnder;        
             DineroApostado = dineroApostado;
