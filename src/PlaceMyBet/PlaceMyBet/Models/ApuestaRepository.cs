@@ -61,22 +61,23 @@ namespace PlaceMyBet.Models
         {
             MySqlConnection con = Connect();
             MySqlCommand command = con.CreateCommand();
-            // para que aunque introduzcas puntos no te transforme el sql en comas
+            /// para que aunque introduzcas puntos no te transforme el sql en comas
             CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
             culInfo.NumberFormat.NumberDecimalSeparator = ".";
             culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
             culInfo.NumberFormat.PercentDecimalSeparator = ".";
             culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
             System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
-            //Creo el metodo para ingresar la fecha de ahora
+            ///Creo el metodo para ingresar la fecha de ahora
             DateTime time=DateTime.Now;
             string timeNow;
             timeNow = time.ToString("yyyy-MM-dd HH:mm tt");
-            //creo metodos en la consulta para poder saber si es over o under
+            ///creo metodos en la consulta para poder saber si es over o under
             command.CommandText = "INSERT INTO apuestas (MercadoOverUnder, TipoOverUnder, Cuota, DineroApostado, Fecha, Mercado_id_mercado, Usuario_Email) VALUES ('" + a.MercadoOverUnder + "','" + a.TipoOverUnder + "'," + datoCuota(a.MercadoOverUnder, a.TipoOverUnder) + ",'" + a.DineroApostado + "','" + timeNow + "'," + a.Mercado_id_mercado + ",'" + a.Usuario_Email + "');";
             Debug.WriteLine("comando" + command.CommandText);
             
-
+            ///abro conexiones, creo objeto MercadoRepository para poder acceder a los metodos inplantados de SumaApuesta(a)
+            ///y ActualizarCuotas(a), le paso un objeto apuesta para extraer la información para saber donde hacer la actualizacion
             try
             {
                 con.Open();
@@ -93,12 +94,13 @@ namespace PlaceMyBet.Models
             }
 
         }
-        //el metodo para sacar el dato no lo utilizamos xq puede haber en mercados los mismos tipos, vendria de la consulta datoIdMercado(a.MercadoOverUnder)
+        ///el metodo para sacar el dato no lo utilizamos xq puede haber en mercados los mismos tipos, 
+        ///vendria de la consulta datoIdMercado(a.MercadoOverUnder)
         private string datoIdMercado(double tipo)
         {
             return string.Format("(select id_mercado from mercados where OverUnder LIKE '{0}')", tipo);
         }
-        //Metodos para saber si es over o under 
+        ///Metodos para saber si es over o under 
         private string datoCuota(double mercado, string tipo)
         {
             if (tipo == "over")
