@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.SqlServer.Server;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -158,6 +159,47 @@ namespace PlaceMyBet.Models
                 }
             }
             return 0;
+        }
+        internal List<Mercado> GiveMeMarket(double tipo,int evento)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
+            culInfo.NumberFormat.NumberDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            culInfo.NumberFormat.PercentDecimalSeparator = ".";
+            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
+            //string consulta=string.Format("SELECT * FROM mercados WHERE (OverUnder = '{0}') AND (Eventos_Identificador_evento = '{1}');",tipo,evento);
+            command.CommandText = "SELECT * FROM mercados WHERE OverUnder = @O AND Eventos_Identificador_evento = @E";
+            command.Parameters.AddWithValue("@O", tipo);
+            command.Parameters.AddWithValue("@E", evento);
+            //me quedo haciendo el try catch de la consulta
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                Mercado m = null;
+                List<Mercado> mercados = new List<Mercado>();
+                while (res.Read())
+                {
+                    Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetDouble(1) + " " + res.GetDouble(2) + " " + res.GetDouble(3) + " " + res.GetDouble(4) + " " + res.GetDouble(5) + " " + res.GetInt32(6));
+                    m = new Mercado(res.GetInt32(0), res.GetDouble(1), res.GetDouble(2), res.GetDouble(3), res.GetDouble(4), res.GetDouble(5), res.GetInt32(6));
+                    mercados.Add(m);
+                }
+                con.Close();
+                return mercados;
+            }
+            catch(MySqlException e)
+            {
+                Debug.WriteLine("Se ha producido un error de conexion");
+                return null;
+            }
+            
+            
+           
+            
+            
         }
 
     }
