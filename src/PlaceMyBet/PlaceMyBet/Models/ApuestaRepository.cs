@@ -94,6 +94,80 @@ namespace PlaceMyBet.Models
             }
 
         }
+        /// <summary>
+        /// consulta para traer de apuestas los campos de abajo fitrado por email y tipo.
+        /// </summary>       
+        internal List<ApuestaFilter> GiveApuesta(string email, string tipo)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT apuestas.TipoOverUnder, apuestas.Cuota, apuestas.DineroApostado, " +
+                "mercados.Eventos_Identificador_evento FROM apuestas " +
+                "LEFT JOIN mercados ON apuestas.Mercado_id_mercado = mercados.id_mercado" +
+                " WHERE apuestas.Usuario_Email = @E AND apuestas.TipoOverUnder = @T";
+            command.Parameters.AddWithValue("@E", email);
+            command.Parameters.AddWithValue("@T", tipo);
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                ApuestaFilter a = null;
+                List<ApuestaFilter> apuestas = new List<ApuestaFilter>();
+                while (res.Read())
+                {
+                    //TENGO QUE CONTROLAR Y MODIFICAR LO QUE ME DEVUELVE LA LISTA DE APUESTAS PORQUE EL EJERCICIO NO ME PIDE TODO
+                    //DE APUESTAS, SI NO ALGUNOS PARAMETROS
+                    //el debug realmente solo sirve para saber lo que tenemos, debe coincidir los campos con lo que le meto a "a"
+                    Debug.WriteLine("Recuperado: " + res.GetString(0) + " " + res.GetDouble(1) + " " + res.GetDouble(2) + " " +  res.GetInt32(3));
+                    a = new ApuestaFilter(res.GetString(0), res.GetDouble(1), res.GetDouble(2),res.GetInt32(3));
+                    apuestas.Add(a);
+                }
+                con.Close();
+                return apuestas;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("Se ha producido un error de conexion");
+                return null;
+            }
+
+           
+        }
+        internal List<ApuestaFilter2> GiveApuesta2(int mercado,string email)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT apuestas.MercadoOverUnder, apuestas.TipoOverUnder, apuestas.Cuota," +
+                " apuestas.DineroApostado FROM apuestas WHERE " +
+                "apuestas.Mercado_id_mercado = @M AND apuestas.Usuario_Email = @E ";
+            command.Parameters.AddWithValue("@M", mercado);
+            command.Parameters.AddWithValue("@E", email);
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                ApuestaFilter2 a = null;
+                List<ApuestaFilter2> apuestas = new List<ApuestaFilter2>();
+                while (res.Read())
+                {
+                    //TENGO QUE CONTROLAR Y MODIFICAR LO QUE ME DEVUELVE LA LISTA DE APUESTAS PORQUE EL EJERCICIO NO ME PIDE TODO
+                    //DE APUESTAS, SI NO ALGUNOS PARAMETROS
+                    //el debug realmente solo sirve para saber lo que tenemos, debe coincidir los campos con lo que le meto a "a"
+                    Debug.WriteLine("Recuperado: " + res.GetDouble(0) + " " + res.GetString(1) + " " + res.GetDouble(2) + " " + res.GetDouble(3));
+                    a = new ApuestaFilter2(res.GetDouble(0), res.GetString(1), res.GetDouble(2), res.GetDouble(3));
+                    apuestas.Add(a);
+                }
+                con.Close();
+                return apuestas;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("Se ha producido un error de conexion");
+                return null;
+            }
+
+
+        }
         ///el metodo para sacar el dato no lo utilizamos xq puede haber en mercados los mismos tipos, 
         ///vendria de la consulta datoIdMercado(a.MercadoOverUnder)
         private string datoIdMercado(double tipo)

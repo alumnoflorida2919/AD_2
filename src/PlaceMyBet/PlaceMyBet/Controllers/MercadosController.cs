@@ -18,6 +18,9 @@ namespace PlaceMyBet.Controllers
             //List<Mercado> mercados = repo.Retrieve();
             return mercados;
         }
+        /// <summary>
+        /// filtra de mercado a traves de tipo y evento
+        /// </summary>        
         // GET: api/Mercados?Eventos_indentificacdor_eventos=Eventos_indentificacdor_eventos&OverUnder=OverUnder
         public IEnumerable<Mercado> GetMarket(double tipo,int evento)
         {

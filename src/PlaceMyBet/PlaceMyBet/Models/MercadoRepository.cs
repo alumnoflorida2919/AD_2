@@ -160,6 +160,10 @@ namespace PlaceMyBet.Models
             }
             return 0;
         }
+        /// <summary>
+        /// traer todo de los mercados de un tipo y un evento determinado
+        /// </summary>
+      
         internal List<Mercado> GiveMeMarket(double tipo,int evento)
         {
             MySqlConnection con = Connect();

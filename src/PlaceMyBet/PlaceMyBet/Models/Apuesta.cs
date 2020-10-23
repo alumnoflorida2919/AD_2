@@ -48,4 +48,43 @@ namespace PlaceMyBet.Models
         public double DineroApostado { get; set; }
         public DateTime fecha { get; set; }
     }   
+
+    public class ApuestaFilter
+    {
+        public ApuestaFilter(string tipoOverUnder, double cuota,  double dineroApostado, int evento)
+        {
+            Evento = evento;
+            TipoOverUnder = tipoOverUnder.ToLower();
+            Cuota = cuota;        
+            DineroApostado = dineroApostado;
+        
+        }
+    
+        public int Evento { get; set; }
+        public double Cuota { get; set; }
+        public string TipoOverUnder { get; set; }
+        public double DineroApostado { get; set; }    
+    }
+    /// <summary>
+    /// Recupera string tipoOverUnder, double cuota, double dineroApostado, int evento=> viene de otra tabla,
+    /// del filtrado por email y tipo
+    /// </summary>    
+     
+    public class ApuestaFilter2
+    {/// <summary>
+     /// lo que quiero mostrar, creado por el constructor
+     /// </summary> 
+        public ApuestaFilter2(double mercadoOverUnder, string tipoOverUnder, double cuota, double dineroApostado)
+        {
+            MercadoOverUnder = mercadoOverUnder;
+            TipoOverUnder = tipoOverUnder.ToLower();
+            Cuota = cuota;
+            DineroApostado = dineroApostado;      
+        }        
+        public double MercadoOverUnder { get; set; }
+        public string TipoOverUnder { get; set; }
+        public double Cuota { get; set; }
+        public double DineroApostado { get; set; }       
+    }
+
 }
