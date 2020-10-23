@@ -48,7 +48,7 @@ namespace PlaceMyBet.Controllers
             Apuesta a = repo.Retrieve();*/
             return null;
         }
-
+        [Authorize]
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta)
         {

@@ -10,6 +10,7 @@ namespace PlaceMyBet.Controllers
 {
     public class UsuariosController : ApiController
     {
+
         // GET: api/Usuarios
         public IEnumerable<Usuario> Get()
         {
