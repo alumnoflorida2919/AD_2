@@ -133,6 +133,9 @@ namespace PlaceMyBet.Models
 
            
         }
+        /// <summary>
+        /// filtrado de apuestas segun mercado y email
+        /// </summary>        
         internal List<ApuestaFilter2> GiveApuesta2(int mercado,string email)
         {
             MySqlConnection con = Connect();
