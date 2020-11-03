@@ -11,6 +11,7 @@ namespace PlaceMyBet.Controllers
     public class ApuestasController : ApiController
     {
         // GET: api/Apuestas
+        [Authorize(Roles = "Admin")]
         public IEnumerable<ApuestaDTO> Get()
         {
             var repo = new ApuestaRepository();
