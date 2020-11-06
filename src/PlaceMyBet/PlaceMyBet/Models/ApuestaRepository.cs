@@ -73,7 +73,7 @@ namespace PlaceMyBet.Models
             string timeNow;
             timeNow = time.ToString("yyyy-MM-dd HH:mm tt");
             ///creo metodos en la consulta para poder saber si es over o under
-            command.CommandText = "INSERT INTO apuestas (MercadoOverUnder, TipoOverUnder, Cuota, DineroApostado, Fecha, Mercado_id_mercado, Usuario_Email) VALUES ('" + a.MercadoOverUnder + "','" + a.TipoOverUnder + "'," + datoCuota(a.MercadoOverUnder, a.TipoOverUnder) + ",'" + a.DineroApostado + "','" + timeNow + "'," + a.Mercado_id_mercado + ",'" + a.Usuario_Email + "');";
+            command.CommandText = "INSERT INTO apuestas (MercadoOverUnder, TipoOverUnder, Cuota, DineroApostado, Fecha, Mercado_id_mercado, Usuario_Email) VALUES ('" + a.MercadoOverUnder + "','" + a.TipoOverUnder + "'," + datoCuota(a.Mercado_id_mercado, a.TipoOverUnder) + ",'" + a.DineroApostado + "','" + timeNow + "'," + a.Mercado_id_mercado + ",'" + a.Usuario_Email + "');";
             Debug.WriteLine("comando" + command.CommandText);
             
             ///abro conexiones, creo objeto MercadoRepository para poder acceder a los metodos inplantados de SumaApuesta(a)
@@ -178,17 +178,17 @@ namespace PlaceMyBet.Models
             return string.Format("(select id_mercado from mercados where OverUnder LIKE '{0}')", tipo);
         }
         ///Metodos para saber si es over o under 
-        private string datoCuota(double mercado, string tipo)
+        private string datoCuota(int mercado, string tipo)
         {
             if (tipo == "over")
             {
-                return string.Format("(select CuotaOver from mercados where OverUnder like '{0}')", mercado);
+                return string.Format("(select CuotaOver from mercados where id_mercado like '{0}')", mercado);
             }
             
 
             else if(tipo=="under")
             {
-                return string.Format("(select CuotaUnder from mercados where OverUnder like '{0}')", mercado);
+                return string.Format("(select CuotaUnder from mercados where id_mercado like '{0}')", mercado);
             }
             else
             {
