@@ -213,7 +213,7 @@ namespace PlaceMyBet.Models
                     //DE APUESTAS, SI NO ALGUNOS PARAMETROS
                     //el debug realmente solo sirve para saber lo que tenemos, debe coincidir los campos con lo que le meto a "a"
                     Debug.WriteLine("Recuperado: " + res.GetDouble(0) + " " + res.GetString(1) + " " + res.GetDouble(2) + " " + res.GetDouble(3));
-                    a = new ApuestaExam(res.GetDouble(0), res.GetString(1), res.GetDouble(2), res.GetDouble(3));
+                    a = new ApuestaExam(res.GetString(1), res.GetDouble(2));
                     apuestas.Add(a);
                 }
                 con.Close();

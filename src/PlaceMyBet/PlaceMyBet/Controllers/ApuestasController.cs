@@ -30,7 +30,7 @@ namespace PlaceMyBet.Controllers
             //List<Apuesta> apuestas = repo.Retrieve();
             List<ApuestaFilter> apuestas = repo.GiveApuesta(email,tipo);
             return apuestas;
-        }
+        }      
         /// <summary>
         /// Metodo para filtrar a traves de Mercado_id_mercado y Email
         /// </summary>

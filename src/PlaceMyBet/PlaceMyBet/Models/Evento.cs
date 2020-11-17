@@ -32,4 +32,19 @@ namespace PlaceMyBet.Models
         public string EquipoVisitante { get; set; }
         public DateTime Fecha { get; set; }
     }
+    
+    public class EventoNew
+    {
+        public EventoNew(string equipoLocal, string equipoVisitante, double tipoMercado, DateTime fecha)
+        {
+            EquipoLocal = equipoLocal;
+            EquipoVisitante = equipoVisitante;
+            TipoMercado = tipoMercado;
+            Fecha = fecha;
+        }
+        public string EquipoLocal { get; set; }
+        public string EquipoVisitante { get; set; }
+        public double TipoMercado { get; set; }
+        public DateTime Fecha { get; set; }
+    }
 }

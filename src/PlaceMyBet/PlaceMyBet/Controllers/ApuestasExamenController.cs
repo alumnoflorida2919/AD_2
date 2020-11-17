@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlaceMyBet.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,9 +11,12 @@ namespace PlaceMyBet.Controllers
     public class ApuestasExamenController : ApiController
     {
         // GET: api/ApuestasExamen
-        public IEnumerable<string> Get()
+        public IEnumerable<ApuestaExam> GetApuestasExamen(string equipo)
         {
-            return new string[] { "value1", "value2" };
+            var repo = new ApuestaRepository();
+            //List<Apuesta> apuestas = repo.Retrieve();
+            List<ApuestaExam> apuestas = repo.GiveRival(equipo);
+            return apuestas;
         }
 
         // GET: api/ApuestasExamen/5
