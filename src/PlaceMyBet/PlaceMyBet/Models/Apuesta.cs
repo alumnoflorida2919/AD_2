@@ -86,5 +86,18 @@ namespace PlaceMyBet.Models
         public double Cuota { get; set; }
         public double DineroApostado { get; set; }       
     }
+    public class ApuestExam
+    {/// <summary>
+     /// lo que quiero mostrar, creado por el constructor
+     /// </summary> 
+        public ApuestExam(string equipoRival, double cantidad)
+        {
+            EquipoRival = equipoRival;
+            Cantidad = cantidad;
+        }
+        
+        public string EquipoRival { get; set; }
+        public double Cantidad { get; set; }
+    }
 
 }

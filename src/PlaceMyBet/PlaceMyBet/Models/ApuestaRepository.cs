@@ -195,5 +195,35 @@ namespace PlaceMyBet.Models
                 return "Error";
             }
         }
+        public List<ApuestaExam> GiveRival(string equipo)
+        {
+            MySqlConnection con = Connect();
+            MySqlCommand command = con.CreateCommand();
+            command.CommandText = "SELECT eventos.Identificador_evento FROM eventos WHERE eventos.Identificador_evento = @M ";
+            command.Parameters.AddWithValue("@M", equipo);            
+            try
+            {
+                con.Open();
+                MySqlDataReader res = command.ExecuteReader();
+                ApuestaExam a = null;
+                List<ApuestaExam> apuestas = new List<ApuestaExam>();
+                while (res.Read())
+                {
+                    //TENGO QUE CONTROLAR Y MODIFICAR LO QUE ME DEVUELVE LA LISTA DE APUESTAS PORQUE EL EJERCICIO NO ME PIDE TODO
+                    //DE APUESTAS, SI NO ALGUNOS PARAMETROS
+                    //el debug realmente solo sirve para saber lo que tenemos, debe coincidir los campos con lo que le meto a "a"
+                    Debug.WriteLine("Recuperado: " + res.GetDouble(0) + " " + res.GetString(1) + " " + res.GetDouble(2) + " " + res.GetDouble(3));
+                    a = new ApuestaExam(res.GetDouble(0), res.GetString(1), res.GetDouble(2), res.GetDouble(3));
+                    apuestas.Add(a);
+                }
+                con.Close();
+                return apuestas;
+            }
+            catch (MySqlException e)
+            {
+                Debug.WriteLine("Se ha producido un error de conexion");
+                return null;
+            }
+        }
     }
 }
